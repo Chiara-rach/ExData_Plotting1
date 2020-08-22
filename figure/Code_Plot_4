@@ -1,1 +1,25 @@
+dir <- "C:/Users/User/Desktop/Data Science/Exploratory Data Analysis/household_power_consumption.txt"
+dataset <- read.table(dir , header = TRUE, sep = ";", check.names = FALSE, stringsAsFactors = FALSE)
+
+dataset$Date <- as.Date(dataset$Date, "%d/%m/%Y")
+dataset$DateTime <- strptime(paste(dataset$Date, dataset$Time), format="%Y-%m-%d %H:%M:%S")
+
+m <- filter(dataset, Date == "2007-02-01")
+n <- filter(dataset, Date == "2007-02-02")
+df <- rbind(m, n)
+Sys.setlocale("LC_ALL","English")
+
+##PLOT 4
+par(mfrow = c(2,2))
+plot(df$DateTime, df$Global_active_power, xlab = "", ylab = "Global Active Power", cex.lab = 0.8, type = "l")
+with(df, plot(DateTime, Voltage, xlab = "datetime", ylab = "Voltage", cex.lab = 0.8, type = "l"))
+with(df, plot(DateTime, Sub_metering_1, xlab = "", ylab = "Energy sub metering", cex.lab = 0.8, type = "l"))
+points(df$DateTime, df$Sub_metering_2, col = "red", type = "l")
+points(df$DateTime, df$Sub_metering_3, col = "blue", type = "l")
+legend("topright", pch = 95, col= c("black", "blue", "red"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), cex = 0.8)
+with(df, plot(DateTime, Global_reactive_power, xlab = "datetime", ylab = "Global_reactive_power", cex.lab = 0.8, type = "l"))
+dev.copy(png, file = "plot4.png", width = 480, height = 480)
+dev.off()
+
+
 

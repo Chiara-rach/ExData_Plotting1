@@ -1,1 +1,18 @@
+dir <- "C:/Users/User/Desktop/Data Science/Exploratory Data Analysis/household_power_consumption.txt"
+dataset <- read.table(dir , header = TRUE, sep = ";", check.names = FALSE, stringsAsFactors = FALSE)
+
+dataset$Date <- as.Date(dataset$Date, "%d/%m/%Y")
+dataset$DateTime <- strptime(paste(dataset$Date, dataset$Time), format="%Y-%m-%d %H:%M:%S")
+
+m <- filter(dataset, Date == "2007-02-01")
+n <- filter(dataset, Date == "2007-02-02")
+df <- rbind(m, n)
+Sys.setlocale("LC_ALL","English"
+
+##PLOT 2
+Sys.setlocale("LC_ALL","English")
+df$weekday <- weekdays(df$Date)
+plot(df$DateTime, df$Global_active_power, xlab = "", ylab = "Global Active Power (kilowatts)", type = "l")
+dev.copy(png, file = "plot2.png", width = 480, height = 480)
+dev.off()
 
